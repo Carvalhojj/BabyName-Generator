@@ -1,22 +1,6 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-
-enum Gender{
-  GIRL = 'Girl',
-  BOY = 'Boy',
-  UNISEX = 'Unisex'
-}
-
-enum Popularity{
-  TRENDY = 'Trendy',
-  UNIQUE = 'Unique'
-}
-
-enum Length{
-  LONG = 'Long',
-  ALL = 'All',
-  SHORT = 'Short'
-}
+import { reactive, ref } from "vue";
+import { Gender, Popularity, Length, names } from "../pages/data";
 
 interface OptionState{
   gender: Gender;
@@ -24,17 +8,13 @@ interface OptionState{
   length: Length;
 }
 
-const obj: OptionState = {
-  gender: Gender.GIRL,
-  popularity: Popularity.UNIQUE,
-  length: Length.ALL,
-}
-
 const options = reactive<OptionState>({
   gender: Gender.GIRL,
   popularity: Popularity.UNIQUE,
   length: Length.LONG,
 });
+
+const selectedNames = ref<string[]>([]);
 </script>
 
 <template>
@@ -48,18 +28,21 @@ const options = reactive<OptionState>({
           <button
           class="option option-left"
           :class="options.gender === Gender.BOY && 'option-active'"
+          @click="options.gender = Gender.BOY"
           >
           Boy
           </button>
           <button
           class="option"
           :class="options.gender === Gender.UNISEX && 'option-active'"
+          @click="options.gender = Gender.UNISEX"
           >
           Unisex
           </button>
           <button
           class="option option-right"
           :class="options.gender === Gender.GIRL && 'option-active'"
+          @click="options.gender = Gender.GIRL"
           >
           Girl
           </button>
@@ -71,12 +54,14 @@ const options = reactive<OptionState>({
           <button
           class="option option-left"
           :class="options.popularity === Popularity.TRENDY && 'option-active'"
+          @click="options.popularity = Popularity.TRENDY"
           >
           Trendy
           </button>
           <button
           class="option option-right"
           :class="options.popularity === Popularity.UNIQUE && 'option-active'"
+          @click="options.popularity = Popularity.UNIQUE"
           >
           Unique
           </button>
@@ -88,24 +73,29 @@ const options = reactive<OptionState>({
           <button
           class="option option-left"
           :class="options.length === Length.LONG && 'option-active'"
+          @click="options.length = Length.LONG"
           >
           Long
           </button>
           <button
           class="option"
           :class="options.length === Length.ALL && 'option-active'"
+          @click="options.length = Length.ALL"
           >
           All
           </button>
           <button
           class="option option-right"
           :class="options.length === Length.SHORT && 'option-active'"
+          @click="options.length = Length.SHORT"
           >
           Short
           </button>
         </div>
       </div>
+      <button class="primary">Find names</button>
     </div>
+    {{ selectedNames }}
   </div>
 </template>
 
@@ -159,5 +149,16 @@ const options = reactive<OptionState>({
   .option-active{
     background-color: rgb(249, 87, 89);
     color: white;
+  }
+
+  .primary{
+    background-color: rgb(249, 87, 89);
+    color: white;
+    border-radius: 6.5rem;
+    border: none;
+    padding: 0.75rem 4rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
   }
 </style>
